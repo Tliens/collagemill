@@ -82,8 +82,8 @@ h1 .grad{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit
 .btn.warn:hover{border-color:#e5484d;color:#e5484d}
 .slotline{font-size:12.5px;color:var(--mut);margin-left:auto}
 .appgrid{display:grid;grid-template-columns:minmax(0,1fr) 328px}
-.stage{padding:18px;display:flex;align-items:flex-start;justify-content:center;min-height:420px;
-  background:repeating-conic-gradient(color-mix(in srgb,var(--line) 55%,transparent) 0 25%,transparent 0 50%) 0 0/22px 22px}
+.stage{padding:18px;display:flex;align-items:center;justify-content:center;min-height:420px;background:var(--card2)}
+.stage.alpha{background:repeating-conic-gradient(color-mix(in srgb,var(--line) 55%,transparent) 0 25%,transparent 0 50%) 0 0/22px 22px}
 #cv{max-width:100%;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.25);touch-action:none;cursor:grab}
 .panel{border-left:1px solid var(--line);padding:6px 14px 20px;max-height:76vh;overflow:auto}
 .grp{padding:12px 0 4px;border-bottom:1px dashed var(--line)}
@@ -470,10 +470,10 @@ function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('sh
 function mulberry(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let z=Math.imul(a^a>>>15,1|a);z=z+Math.imul(z^z>>>7,61|z)^z;return((z^z>>>14)>>>0)/4294967296}}
 const PAL=[
   ['#0e1a2f','#274b63','#e8a33d','#f2d5a0','#122c3a'], ['#1b1033','#452768','#8b5cf6','#e8c468','#2a1444'],
-  ['#0b2530','#14555c','#3ec6b8','#d9f2ea','#0e3a40'], ['#3a1c1c','#7c3a2d','#e07a4f','#f2c094','#4a2420'],
-  ['#101828','#243b6b','#5b8def','#c9dcff','#182848'], ['#2b2115','#6b4f2a','#c9a86a','#efe0bd','#3a2c1a'],
-  ['#101c14','#2d5233','#6fae7c','#dcedd8','#1c3421'], ['#260f1e','#5c2440','#c94f7c','#f2b8cd','#38152a'],
-  ['#0c0f14','#2a3140','#8b9db3','#e2e8f0','#161b24'], ['#301c0a','#7a4a16','#e8963d','#f7d9a8','#46290f']
+  ['#0b2530','#14555c','#3ec6b8','#d9f2ea','#0e3a40'], ['#8a4a38','#c9704e','#f2a06b','#ffe3c0','#a35a42'],
+  ['#6ea3d8','#2e5f9e','#4d86d8','#e8f2ff','#1d4480'], ['#2b2115','#6b4f2a','#c9a86a','#efe0bd','#3a2c1a'],
+  ['#101c14','#2d5233','#6fae7c','#dcedd8','#1c3421'], ['#d98aa8','#b85a80','#e8547c','#ffe0ec','#8a3a5c'],
+  ['#a8b8c8','#5a7086','#39506a','#f2f6fa','#7e93a8'], ['#301c0a','#7a4a16','#e8963d','#f7d9a8','#46290f']
 ];
 const demoCache=[];
 function makeDemo(i){
@@ -537,27 +537,27 @@ const state={
   count:12, photos:[], sel:-1,
   view:{
     preset:'wall', mode:'flat', intensity:55, aspect:1,
-    gap:.035, radius:.09, shape:'round', shadow:true,
+    gap:.045, radius:.12, shape:'round', shadow:true,
     frame:'none', frameW:.05, frameColor:'#ffffff',
-    bgKind:'gradient', bgColor:'#f3ead8', gradIdx:0,
+    bgKind:'gradient', bgColor:'#f3ead8', gradIdx:1,
     title:'', titleFont:'serif', cellTilt:false
   }
 };
 function V(){return state.view}
 
 const PRESETS=[
- {id:'grid', en:'Minimal Grid', zh:'简约网格', d:{mode:'flat',preset:'grid',gap:.03,radius:.05,shape:'round',frame:'none',shadow:false,bgKind:'color',bgColor:'#faf7f0',cellTilt:false,frameW:.05}},
- {id:'wall', en:'Photo Wall', zh:'光影照片墙', d:{mode:'flat',preset:'wall',gap:.045,radius:.1,shape:'round',frame:'none',shadow:true,bgKind:'gradient',gradIdx:2,cellTilt:false}},
- {id:'polaroid', en:'Polaroid', zh:'拍立得', d:{mode:'flat',preset:'polaroid',gap:.06,radius:.02,shape:'sharp',frame:'polaroid',frameW:.055,shadow:true,bgKind:'color',bgColor:'#f3ead8',cellTilt:true}},
- {id:'film', en:'Filmstrip', zh:'胶片', d:{mode:'flat',preset:'film',gap:.055,radius:.015,shape:'sharp',frame:'film',frameW:.085,shadow:true,bgKind:'color',bgColor:'#1d1d24',cellTilt:false}},
+ {id:'grid', en:'Minimal Grid', zh:'简约网格', d:{mode:'flat',preset:'grid',gap:.03,radius:.1,shape:'round',frame:'none',shadow:false,bgKind:'color',bgColor:'#faf7f0',cellTilt:false,frameW:.05}},
+ {id:'wall', en:'Photo Wall', zh:'光影照片墙', d:{mode:'flat',preset:'wall',gap:.045,radius:.12,shape:'round',frame:'none',shadow:true,bgKind:'gradient',gradIdx:1,cellTilt:false}},
+ {id:'polaroid', en:'Polaroid', zh:'拍立得', d:{mode:'flat',preset:'polaroid',gap:.06,radius:.04,shape:'sharp',frame:'polaroid',frameW:.055,shadow:true,bgKind:'color',bgColor:'#f3ead8',cellTilt:true}},
+ {id:'film', en:'Filmstrip', zh:'胶片', d:{mode:'flat',preset:'film',gap:.055,radius:.05,shape:'sharp',frame:'film',frameW:.085,shadow:true,bgKind:'color',bgColor:'#1d1d24',cellTilt:false}},
  {id:'editorial', en:'Editorial', zh:'杂志页', d:{mode:'flat',preset:'editorial',gap:.014,radius:0,shape:'sharp',frame:'solid',frameW:.05,frameColor:'#ffffff',shadow:false,bgKind:'color',bgColor:'#ffffff',cellTilt:false}},
  {id:'seamless', en:'Seamless', zh:'无缝拼贴', d:{mode:'flat',preset:'seamless',gap:0,radius:0,shape:'sharp',frame:'none',shadow:false,bgKind:'color',bgColor:'#ffffff',cellTilt:false}},
  {id:'bubbles', en:'Bubbles', zh:'圆形气泡', d:{mode:'flat',preset:'bubbles',gap:.055,radius:0,shape:'circle',frame:'solid',frameW:.045,frameColor:'#ffffff',shadow:true,bgKind:'gradient',gradIdx:4,cellTilt:false}},
- {id:'curve', en:'Mirage Curve', zh:'蜃景曲面', d:{mode:'bend',intensity:55,preset:'curve',gap:.03,radius:.06,shape:'round',frame:'solid',frameW:.02,frameColor:'#e8e4da',shadow:true,bgKind:'gradient',gradIdx:0,cellTilt:false}},
- {id:'tilt', en:'Tilt Plane', zh:'斜面透视', d:{mode:'tilt',intensity:55,preset:'tilt',gap:.035,radius:.07,shape:'round',frame:'none',shadow:true,bgKind:'gradient',gradIdx:3,cellTilt:false}},
- {id:'cube', en:'Cube Hall', zh:'立方展厅', d:{mode:'cube',intensity:55,preset:'cube',gap:.035,radius:.03,shape:'round',frame:'gold',frameW:.03,shadow:false,bgKind:'gradient',gradIdx:0,cellTilt:false}},
- {id:'gallery', en:'Gold Gallery', zh:'金框画廊', d:{mode:'flat',preset:'gallery',gap:.065,radius:.02,shape:'sharp',frame:'gold',frameW:.06,shadow:true,bgKind:'gradient',gradIdx:3,cellTilt:false}},
- {id:'torn', en:'Torn Paper', zh:'撕纸拼贴', d:{mode:'flat',preset:'torn',gap:.06,radius:.01,shape:'sharp',frame:'torn',frameW:.06,shadow:true,bgKind:'color',bgColor:'#f6f1e4',cellTilt:false}}
+ {id:'curve', en:'Mirage Curve', zh:'蜃景曲面', d:{mode:'bend',intensity:55,preset:'curve',gap:.03,radius:.12,shape:'round',frame:'solid',frameW:.02,frameColor:'#e8e4da',shadow:true,bgKind:'gradient',gradIdx:0,cellTilt:false}},
+ {id:'tilt', en:'Tilt Plane', zh:'斜面透视', d:{mode:'tilt',intensity:55,preset:'tilt',gap:.035,radius:.14,shape:'round',frame:'none',shadow:true,bgKind:'gradient',gradIdx:3,cellTilt:false}},
+ {id:'cube', en:'Cube Hall', zh:'立方展厅', d:{mode:'cube',intensity:55,preset:'cube',gap:.035,radius:.08,shape:'round',frame:'gold',frameW:.03,shadow:false,bgKind:'gradient',gradIdx:0,cellTilt:false}},
+ {id:'gallery', en:'Gold Gallery', zh:'金框画廊', d:{mode:'flat',preset:'gallery',gap:.065,radius:.06,shape:'sharp',frame:'gold',frameW:.06,shadow:true,bgKind:'gradient',gradIdx:3,cellTilt:false}},
+ {id:'torn', en:'Torn Paper', zh:'撕纸拼贴', d:{mode:'flat',preset:'torn',gap:.06,radius:.04,shape:'sharp',frame:'torn',frameW:.06,shadow:true,bgKind:'color',bgColor:'#f6f1e4',cellTilt:false}}
 ];
 
 /* ---------------- layout ---------------- */
@@ -931,8 +931,7 @@ function unitRadiusFor(flat){
   const v=V();
   if(v.shape==='circle')return .5;
   if(v.shape==='sharp')return 0;
-  const px=v.radius*Math.min(CW,CH);
-  return clamp(Math.min(px/(flat.w||1),px/(flat.h||1)),0,.5);
+  return clamp(v.radius,0,.5); // cell-relative: fraction of the cell's min edge
 }
 
 function renderScene(c,W,H,o){
@@ -972,6 +971,7 @@ function isBgDark(){
 
 /* preview render */
 function render(){
+  $('#stage').classList.toggle('alpha', V().bgKind==='transparent');
   const stage=$('#stage'), availW=Math.max(160,Math.min(stage.clientWidth-36, 980));
   const ar=V().aspect;
   let w=availW, h=w/ar;
@@ -1270,7 +1270,7 @@ $('#btnLang').onclick=()=>applyLang(LANG==='en'?'zh':'en');
 initLang();
 applyTheme();
 buildPresets();
-syncAllControls();
+applyPreset(V().preset); // boot with the full preset (no half-applied defaults)
 rebuildGradChips();
 fillDemo();
 window.addEventListener('load',scheduleRender);
