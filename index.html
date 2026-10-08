@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CollageMill — Free Online Photo Collage Maker &amp; Grid Layouts</title>
+<meta name="description" content="Arrange 1–25 photos into beautiful collages right in your browser. Grid, Polaroid, film, magazine, curved wall, tilt plane and 3D cube styles with elegant frames. 100% local — no upload.">
+<meta name="keywords" content="photo collage maker, image grid layout, photo wall online, collage maker free, photo layout tool">
+<link rel="canonical" href="https://collagemill.kuige.me/">
+<link rel="alternate" hreflang="en" href="https://collagemill.kuige.me/">
+<link rel="alternate" hreflang="zh" href="https://collagemill.kuige.me/?lang=zh">
+<link rel="alternate" hreflang="x-default" href="https://collagemill.kuige.me/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CollageMill">
+<meta property="og:title" content="CollageMill — Free Online Photo Collage Maker &amp; Grid Layouts">
+<meta property="og:description" content="Arrange 1–25 photos into beautiful collages in your browser. Tilt, bend and 3D cube transforms, Polaroid / film / magazine styles, elegant frames. No upload.">
+<meta property="og:url" content="https://collagemill.kuige.me/">
+<meta property="og:image" content="https://collagemill.kuige.me/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CollageMill — Free Online Photo Collage Maker">
+<meta name="twitter:description" content="1–25 photos, tilt / bend / cube transforms, beautiful frames. 100% local in your browser.">
+<meta name="twitter:image" content="https://collagemill.kuige.me/og-image.png">
+<meta name="theme-color" content="#0a1220">
+<link rel="icon" type="image/png" href="favicon.png?v=1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"CollageMill","url":"https://collagemill.kuige.me/","applicationCategory":"DesignApplication","operatingSystem":"Any","description":"Free online photo collage maker. Arrange 1-25 photos with grid, Polaroid, film, magazine, curved, tilted and 3D cube layouts and elegant frames. Runs entirely in your browser.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["1-25 photo layouts","Tilt / Bend / 3D Cube transforms","Polaroid, film, magazine, seamless, circle and gallery styles","Frame, gap, radius, shadow and background controls","PNG and JPG export","100% local processing"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is CollageMill free to use?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every style, transform and export option is free, with no account or watermark. Everything runs in your browser."}},
+{"@type":"Question","name":"Are my photos uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Photos are processed locally with the Canvas API and never leave your device. The page even keeps working offline once loaded."}},
+{"@type":"Question","name":"How many photos can I arrange?","acceptedAnswer":{"@type":"Answer","text":"From 1 to 25. Optimized one-click layouts cover 1, 2, 4, 6, 8, 9, 12, 14, 16, 20, 24 and 25 photos, and empty slots can be filled with demo photos."}},
+{"@type":"Question","name":"What formats and sizes can I export?","acceptedAnswer":{"@type":"Answer","text":"PNG (with transparent background support) and JPG at 1x, 2x or 3x resolution — up to about 4800 px on the long edge."}},
+{"@type":"Question","name":"What do the Tilt, Bend and Cube transforms do?","acceptedAnswer":{"@type":"Answer","text":"They lay your grid out in 3D: Tilt leans the whole wall into a perspective plane, Bend wraps it around an invisible cylinder like a curved gallery wall, and Cube folds photos onto the faces of a 3D box."}}]}
+</script>
+<style>
+:root{
+  --bg:#f2f5f4; --card:#ffffff; --card2:#f7faf9; --ink:#17242a; --mut:#5c6c72;
+  --line:#e0e8e6; --accent:#0fa396; --accent2:#6c5ce7; --accent-ink:#ffffff;
+  --soft:#dff2ef; --shadow:0 10px 30px rgba(23,42,50,.08); --radius:14px;
+}
+html[data-theme="dark"]{
+  --bg:#0a1220; --card:#101a2c; --card2:#0d1626; --ink:#e8eef0; --mut:#92a4ac;
+  --line:#1d2c40; --accent:#45d4c8; --accent2:#8b7cf6; --accent-ink:#07211f;
+  --soft:#122634; --shadow:0 12px 34px rgba(0,0,0,.42);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font:inherit;color:inherit;cursor:pointer}
+img{max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+/* topbar */
+.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:58px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
+.brand:hover{text-decoration:none}
+.brand img{width:30px;height:30px;border-radius:8px;box-shadow:0 0 0 2px var(--card),0 0 0 3.5px var(--accent)}
+.brand .cn{font-size:11px;font-weight:600;color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:1px 8px;letter-spacing:.14em;transform:translateY(1px)}
+.spacer{flex:1}
+.hbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:6px 12px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.hbtn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+/* hero */
+.hero{padding:34px 0 6px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--soft);border-radius:99px;padding:5px 14px}
+h1{font-size:clamp(26px,4.4vw,42px);line-height:1.18;margin:14px 0 10px;letter-spacing:-.02em}
+h1 .grad{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);max-width:640px;margin:0 auto;font-size:16px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.badge{font-size:12.5px;font-weight:600;color:var(--mut);border:1px solid var(--line);background:var(--card);border-radius:99px;padding:4px 12px}
+/* app */
+.app{margin:26px 0 8px;background:var(--card);border:1px solid var(--line);border-radius:calc(var(--radius) + 4px);box-shadow:var(--shadow);overflow:hidden}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--card2)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:7px 13px;font-size:13.5px;font-weight:600;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.pri{background:linear-gradient(120deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--accent2)));color:#fff;border-color:transparent}
+.btn.pri:hover{filter:brightness(1.07);color:#fff}
+.btn.warn:hover{border-color:#e5484d;color:#e5484d}
+.slotline{font-size:12.5px;color:var(--mut);margin-left:auto}
+.appgrid{display:grid;grid-template-columns:minmax(0,1fr) 328px}
+.stage{padding:18px;display:flex;align-items:flex-start;justify-content:center;min-height:420px;
+  background:repeating-conic-gradient(color-mix(in srgb,var(--line) 55%,transparent) 0 25%,transparent 0 50%) 0 0/22px 22px}
+#cv{max-width:100%;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.25);touch-action:none;cursor:grab}
+.panel{border-left:1px solid var(--line);padding:6px 14px 20px;max-height:76vh;overflow:auto}
+.grp{padding:12px 0 4px;border-bottom:1px dashed var(--line)}
+.grp:last-child{border-bottom:none}
+.grp h3{margin:0 0 8px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:4px 10px;font-size:12.5px;font-weight:600;color:var(--mut);transition:.12s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pcard{border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:4px 4px 5px;text-align:center;transition:.12s}
+.pcard:hover{border-color:var(--accent)}
+.pcard.on{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.pcard canvas{width:100%;border-radius:6px;display:block;background:#ddd}
+.pcard span{display:block;font-size:10.5px;font-weight:600;color:var(--mut);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard.on span{color:var(--accent)}
+.row{display:flex;align-items:center;gap:8px;margin:7px 0}
+.row label{font-size:12.5px;color:var(--mut);width:64px;flex:none}
+.row output{font-size:11.5px;color:var(--mut);width:34px;text-align:right;flex:none}
+input[type=range]{flex:1;accent-color:var(--accent);height:22px}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;width:100%}
+.seg button{flex:1;border:none;background:var(--card);padding:6px 4px;font-size:12.5px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--accent);color:#fff}
+.seg button+button{border-left:1px solid var(--line)}
+select,input[type=text],input[type=color]{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:6px 8px;font-size:13px}
+input[type=color]{padding:2px;width:44px;height:32px}
+.sw{display:inline-block;width:22px;height:22px;border-radius:7px;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw.on{outline:2.5px solid var(--accent);outline-offset:1px}
+.switch{position:relative;width:38px;height:22px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.switch i{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.15s}
+.switch i:before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.15s}
+.switch input:checked+i{background:var(--accent)}
+.switch input:checked+i:before{transform:translateX(16px)}
+#selBox{background:var(--soft);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:10px;padding:10px;margin-top:6px}
+#selBox .t{font-size:12.5px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.exportbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:13px 14px;border-top:1px solid var(--line);background:var(--card2)}
+.exportbar select{font-size:13px}
+#expInfo{font-size:12.5px;color:var(--mut)}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:34px 0}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.step b{display:block;font-size:15px;margin:6px 0 4px}
+.step p{margin:0;color:var(--mut);font-size:13.5px}
+.step .n{display:inline-flex;width:28px;height:28px;border-radius:9px;background:var(--soft);color:var(--accent);font-weight:800;align-items:center;justify-content:center}
+/* faq */
+.faq{margin:10px 0 40px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
+.faq summary{font-weight:700;cursor:pointer;font-size:15px}
+.faq p{color:var(--mut);margin:10px 0 0;font-size:14px}
+/* footer */
+footer{border-top:1px solid var(--line);padding:26px 0 34px;color:var(--mut);font-size:13px;text-align:center}
+.codename{font-size:12.5px;opacity:.85;margin-bottom:8px}
+.links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+/* toast */
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:9px 18px;border-radius:99px;font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:86vw}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* funnel */
+.mxf{position:fixed;inset:0;z-index:150;display:none;align-items:flex-end;justify-content:center;background:rgba(8,14,20,.45);padding:18px}
+.mxf.show{display:flex}
+.mxf-card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.35);padding:20px 22px;max-width:400px;width:100%;position:relative;animation:mxfup .3s ease}
+@keyframes mxfup{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.mxf-card h4{margin:0 0 6px;font-size:17px}
+.mxf-card p{margin:0 0 14px;color:var(--mut);font-size:14px}
+.mxf-card .mxf-go{display:inline-block;background:linear-gradient(120deg,var(--accent),var(--accent2));color:#fff;font-weight:700;border-radius:10px;padding:9px 18px;text-decoration:none}
+.mxf-card .mxf-go:hover{text-decoration:none;filter:brightness(1.06)}
+.mxf-x{position:absolute;top:10px;right:12px;border:none;background:none;color:var(--mut);font-size:20px;line-height:1}
+@media (max-width:980px){
+  .appgrid{grid-template-columns:1fr}
+  .panel{border-left:none;border-top:1px solid var(--line);max-height:none}
+  .steps{grid-template-columns:1fr}
+  .stage{min-height:300px;padding:12px}
+}
+@media (max-width:600px){
+  .top .wrap{gap:8px;padding:0 12px}
+  .brand{font-size:15px}
+  .brand .cn{display:none}
+  .hbtn{padding:6px 9px;font-size:12px;white-space:nowrap}
+  .slotline{flex-basis:100%;margin-left:0;text-align:right;order:9}
+}
+@media (max-width:430px){
+  .kuige-entry{font-size:0;padding:6px 10px}
+  .kuige-entry::before{content:"魁歌";font-size:12px;font-weight:600}
+}
+@media (prefers-reduced-motion:no-preference){
+  .chip,.btn,.pcard{transition:.15s}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <img src="logo.png?v=1" alt="CollageMill logo" width="30" height="30">
+      <span>CollageMill</span>
+      <span class="cn" title="Codename">蜃楼</span>
+    </a>
+    <span class="spacer"></span>
+    <button id="btnTheme" class="hbtn" type="button" title="Theme">🌗</button>
+    <button id="btnLang" class="hbtn" type="button" title="Language">中文</button>
+    <a class="hbtn kuige-entry" href="https://kuige.me/" target="_blank" rel="noopener" title="kuige.me" style="text-decoration:none">魁歌 · 独立开发者</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow" data-i18n="eyebrow">Free Online Photo Collage Maker</span>
+    <h1 data-i18n="h1">Turn 1–25 photos into one <span class="grad">beautiful layout</span></h1>
+    <p class="sub" data-i18n="sub">Grid walls, Polaroid, film strips, magazine pages — then tilt, bend or fold them into 3D. Elegant frames, full local processing, no upload ever.</p>
+    <div class="badges">
+      <span class="badge" data-i18n="b1">🔒 100% local · No upload</span>
+      <span class="badge" data-i18n="b2">🖼️ Up to 25 photos</span>
+      <span class="badge" data-i18n="b3">🎨 12 styles · 4 transforms</span>
+      <span class="badge" data-i18n="b4">⬇️ PNG / JPG export</span>
+    </div>
+  </section>
+
+  <section class="app" id="app">
+    <div class="toolbar">
+      <button id="btnAdd" class="btn pri" type="button">＋ <span data-i18n="addPhotos">Add photos</span></button>
+      <button id="btnDemo" class="btn" type="button" data-i18n="fillDemo">Fill demo</button>
+      <button id="btnShuffle" class="btn" type="button" data-i18n="shuffle">Shuffle</button>
+      <button id="btnClear" class="btn warn" type="button" data-i18n="clear">Clear</button>
+      <span class="slotline" id="slotLine"></span>
+      <input type="file" id="file" accept="image/*" multiple hidden>
+    </div>
+    <div class="appgrid">
+      <div class="stage" id="stage"><canvas id="cv"></canvas></div>
+      <aside class="panel">
+        <div class="grp">
+          <h3 data-i18n="gCount">Photos</h3>
+          <div class="chips" id="countChips"></div>
+        </div>
+        <div class="grp">
+          <h3 data-i18n="gStyle">Style presets</h3>
+          <div class="presets" id="presetGrid"></div>
+        </div>
+        <div class="grp">
+          <h3 data-i18n="gTransform">Transform</h3>
+          <div class="seg" id="modeSeg">
+            <button type="button" data-m="flat" data-i18n="mFlat">Flat</button>
+            <button type="button" data-m="tilt" data-i18n="mTilt">Tilt</button>
+            <button type="button" data-m="bend" data-i18n="mBend">Bend</button>
+            <button type="button" data-m="cube" data-i18n="mCube">Cube</button>
+          </div>
+          <div class="row"><label data-i18n="lIntensity">Depth</label><input type="range" id="rIntensity" min="5" max="100" value="55"><output id="oIntensity">55</output></div>
+        </div>
+        <div class="grp">
+          <h3 data-i18n="gCanvas">Canvas</h3>
+          <div class="chips" id="aspectChips" style="margin-bottom:8px"></div>
+          <div class="row"><label data-i18n="lBg">Background</label><span class="chips" id="bgSw"></span></div>
+          <div class="chips" id="bgKinds" style="margin-top:6px"></div>
+        </div>
+        <div class="grp">
+          <h3 data-i18n="gFrame">Frame &amp; border</h3>
+          <div class="chips" id="frameChips" style="margin-bottom:8px"></div>
+          <div class="row"><label data-i18n="lFrameW">Width</label><input type="range" id="rFrameW" min="0" max="16" value="0"><output id="oFrameW">0</output></div>
+          <div class="row"><label data-i18n="lFrameColor">Color</label><input type="color" id="cFrame" value="#ffffff"></div>
+        </div>
+        <div class="grp">
+          <h3 data-i18n="gRefine">Fine-tune</h3>
+          <div class="row"><label data-i18n="lGap">Gap</label><input type="range" id="rGap" min="0" max="10" value="4"><output id="oGap">4</output></div>
+          <div class="row"><label data-i18n="lRadius">Radius</label><input type="range" id="rRadius" min="0" max="50" value="8"><output id="oRadius">8</output></div>
+          <div class="row"><label data-i18n="lShape">Shape</label>
+            <div class="seg" id="shapeSeg">
+              <button type="button" data-s="sharp" data-i18n="sSharp">Sharp</button>
+              <button type="button" data-s="round" data-i18n="sRound">Rounded</button>
+              <button type="button" data-s="circle" data-i18n="sCircle">Circle</button>
+            </div>
+          </div>
+          <div class="row"><label data-i18n="lShadow">Shadow</label>
+            <label class="switch"><input type="checkbox" id="ckShadow" checked><i></i></label>
+          </div>
+          <div class="row"><label data-i18n="lTitle">Caption</label><input type="text" id="inTitle" maxlength="60" style="flex:1" data-i18n-ph="phTitle" placeholder="Optional caption…"></div>
+        </div>
+        <div class="grp" id="selGrp" hidden>
+          <div id="selBox">
+            <div class="t" data-i18n="selTitle">Selected photo</div>
+            <div class="row"><label data-i18n="lZoom">Zoom</label><input type="range" id="rZoom" min="100" max="300" value="100"><output id="oZoom">1.0</output></div>
+            <div class="chips">
+              <button class="chip" id="btnRot" type="button" data-i18n="rot90">Rotate 90°</button>
+              <button class="chip" id="btnReset" type="button" data-i18n="pReset">Reset</button>
+              <button class="chip" id="btnRemove" type="button" data-i18n="pRemove">Remove</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="exportbar">
+      <button id="btnPNG" class="btn pri" type="button">⬇️ <span data-i18n="expPNG">Export PNG</span></button>
+      <button id="btnJPG" class="btn" type="button">⬇️ <span data-i18n="expJPG">Export JPG</span></button>
+      <select id="selScale" aria-label="Export scale">
+        <option value="1">1×</option>
+        <option value="2" selected>2×</option>
+        <option value="3">3×</option>
+      </select>
+      <span id="expInfo" data-i18n="expHint">Drag photos between slots to swap · click a photo to fine-tune</span>
+    </div>
+  </section>
+
+  <section class="steps">
+    <div class="step"><span class="n">1</span><b data-i18n="st1">Add your photos</b><p data-i18n="st1d">Click, drop or paste images. Demo photos are one click away for a quick start.</p></div>
+    <div class="step"><span class="n">2</span><b data-i18n="st2">Pick a style &amp; transform</b><p data-i18n="st2d">Choose from 12 presets for 1–25 photos, then tilt, bend or fold the wall in 3D and fine-tune frames, gaps and backgrounds.</p></div>
+    <div class="step"><span class="n">3</span><b data-i18n="st3">Export &amp; share</b><p data-i18n="st3d">Download PNG (transparent supported) or JPG at up to 3× resolution. Nothing ever leaves your device.</p></div>
+  </section>
+
+  <section class="faq" id="faq">
+    <details open>
+      <summary data-i18n="fq1">Is CollageMill free to use?</summary>
+      <p data-i18n="fq1d">Yes. Every style, transform and export option is free, with no account or watermark. Everything runs in your browser.</p>
+    </details>
+    <details>
+      <summary data-i18n="fq2">Are my photos uploaded to a server?</summary>
+      <p data-i18n="fq2d">No. Photos are processed locally with the Canvas API and never leave your device. The page even keeps working offline once loaded.</p>
+    </details>
+    <details>
+      <summary data-i18n="fq3">How many photos can I arrange?</summary>
+      <p data-i18n="fq3d">From 1 to 25. Optimized one-click layouts cover 1, 2, 4, 6, 8, 9, 12, 14, 16, 20, 24 and 25 photos, and empty slots can be filled with demo photos.</p>
+    </details>
+    <details>
+      <summary data-i18n="fq4">What formats and sizes can I export?</summary>
+      <p data-i18n="fq4d">PNG (with transparent background support) and JPG at 1x, 2x or 3x resolution — up to about 4800 px on the long edge.</p>
+    </details>
+    <details>
+      <summary data-i18n="fq5">What do the Tilt, Bend and Cube transforms do?</summary>
+      <p data-i18n="fq5d">They lay your grid out in 3D: Tilt leans the whole wall into a perspective plane, Bend wraps it around an invisible cylinder like a curved gallery wall, and Cube folds photos onto the faces of a 3D box.</p>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="codename" id="codenameLine"></div>
+    <div data-i18n="footMade">Made by 魁歌 KuiGe · part of the KuiGe free tool collection</div>
+    <div class="links">
+      <a href="https://kuige.me/" target="_blank" rel="noopener">kuige.me</a>
+      <a href="https://picsqueeze.kuige.me/" target="_blank" rel="noopener">PicSqueeze</a>
+      <a href="https://photogems.kuige.me/" target="_blank" rel="noopener">PhotoGems</a>
+      <a href="https://markgone.kuige.me/" target="_blank" rel="noopener">MarkGone</a>
+    </div>
+  </div>
+</footer>
+
+<div id="toast" role="status"></div>
+
+<div class="mxf" id="mxFunnel" aria-hidden="true">
+  <div class="mxf-card" role="dialog" aria-modal="true">
+    <button class="mxf-x" id="mxfX" type="button" aria-label="Close">×</button>
+    <h4 id="mxfTitle"></h4>
+    <p id="mxfWhy"></p>
+    <a class="mxf-go" id="mxfGo" href="https://picsqueeze.kuige.me/?from=collagemill" target="_blank" rel="noopener"></a>
+  </div>
+</div>
+
+<script>
+/* ---- matrix funnel: CollageMill -> PicSqueeze (non-module, zero coupling) ---- */
+(function(){
+  var KEY='funnel_collagemill_picsqueeze_v1';
+  var F={url:'https://picsqueeze.kuige.me/?from=collagemill'};
+  window.mxFunnel=function(){
+    try{ if(sessionStorage.getItem(KEY))return; }catch(e){}
+    var zh=document.documentElement.lang==='zh';
+    var c=zh?{t:'拼好了，顺手压一压？',w:'拼图导出的 PNG 往往不小，去 PicSqueeze 本地压缩到目标体积',b:'去 PicSqueeze 压缩'}
+            :{t:'Shrink it before you share?',w:'Collage exports can be heavy — compress them to a target size locally on PicSqueeze',b:'Open PicSqueeze'};
+    var box=document.getElementById('mxFunnel');
+    document.getElementById('mxfTitle').textContent=c.t;
+    document.getElementById('mxfWhy').textContent=c.w;
+    var go=document.getElementById('mxfGo'); go.textContent=c.b; F.url='https://picsqueeze.kuige.me/?from=collagemill'; go.href=F.url;
+    box.classList.add('show'); box.setAttribute('aria-hidden','false');
+    function close(){ box.classList.remove('show'); box.setAttribute('aria-hidden','true'); try{sessionStorage.setItem(KEY,'1')}catch(e){} }
+    document.getElementById('mxfX').onclick=close;
+    box.onclick=function(e){ if(e.target===box) close(); };
+    document.addEventListener('keydown',function h(e){ if(e.key==='Escape'){close();document.removeEventListener('keydown',h);} });
+  };
+})();
+</script>
+
+<script type="module">
+/* ================= CollageMill · 蜃楼 — local photo collage engine ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t;
+const TAU=Math.PI*2;
+
+/* ---------------- i18n ---------------- */
+const DICT={
+en:{
+  eyebrow:'Free Online Photo Collage Maker', h1:'Turn 1–25 photos into one |grad| layout',
+  sub:'Grid walls, Polaroid, film strips, magazine pages — then tilt, bend or fold them into 3D. Elegant frames, full local processing, no upload ever.',
+  b1:'🔒 100% local · No upload', b2:'🖼️ Up to 25 photos', b3:'🎨 12 styles · 4 transforms', b4:'⬇️ PNG / JPG export',
+  addPhotos:'Add photos', fillDemo:'Fill demo', shuffle:'Shuffle', clear:'Clear',
+  gCount:'Photos', gStyle:'Style presets', gTransform:'Transform', gCanvas:'Canvas', gFrame:'Frame & border', gRefine:'Fine-tune',
+  mFlat:'Flat', mTilt:'Tilt', mBend:'Bend', mCube:'Cube',
+  lIntensity:'Depth', lBg:'Background', lFrameW:'Width', lFrameColor:'Color',
+  lGap:'Gap', lRadius:'Radius', lShape:'Shape', lShadow:'Shadow', lTitle:'Caption',
+  sSharp:'Sharp', sRound:'Rounded', sCircle:'Circle', phTitle:'Optional caption…',
+  selTitle:'Selected photo', lZoom:'Zoom', rot90:'Rotate 90°', pReset:'Reset', pRemove:'Remove',
+  expPNG:'Export PNG', expJPG:'Export JPG', expHint:'Drag photos between slots to swap · click a photo to fine-tune',
+  st1:'Add your photos', st1d:'Click, drop or paste images. Demo photos are one click away for a quick start.',
+  st2:'Pick a style & transform', st2d:'Choose from 12 presets for 1–25 photos, then tilt, bend or fold the wall in 3D and fine-tune frames, gaps and backgrounds.',
+  st3:'Export & share', st3d:'Download PNG (transparent supported) or JPG at up to 3× resolution. Nothing ever leaves your device.',
+  fq1:'Is CollageMill free to use?', fq1d:'Yes. Every style, transform and export option is free, with no account or watermark. Everything runs in your browser.',
+  fq2:'Are my photos uploaded to a server?', fq2d:'No. Photos are processed locally with the Canvas API and never leave your device. The page even keeps working offline once loaded.',
+  fq3:'How many photos can I arrange?', fq3d:'From 1 to 25. Optimized one-click layouts cover 1, 2, 4, 6, 8, 9, 12, 14, 16, 20, 24 and 25 photos, and empty slots can be filled with demo photos.',
+  fq4:'What formats and sizes can I export?', fq4d:'PNG (with transparent background support) and JPG at 1x, 2x or 3x resolution — up to about 4800 px on the long edge.',
+  fq5:'What do the Tilt, Bend and Cube transforms do?', fq5d:'They lay your grid out in 3D: Tilt leans the whole wall into a perspective plane, Bend wraps it around an invisible cylinder like a curved gallery wall, and Cube folds photos onto the faces of a 3D box.',
+  footMade:'Made by 魁歌 KuiGe · part of the KuiGe free tool collection',
+  cnLine:'Codename · Shenglou (Mirage) — sea-mirage: light gathers into towers; a thousand scattered photos, one wall.',
+  slots:'{f} of {n} slots filled', added:'Added {n} photo(s)', tooMany:'More photos than slots — using the first {n}',
+  cleared:'Cleared', shuffled:'Shuffled', demoFilled:'Demo photos filled', needPhoto:'Nothing to export yet — add photos or fill demo',
+  exporting:'Rendering…', exported:'Exported {name} ({size})', exportedJ:'Exported {name} ({size}) · JPG fills white behind transparent areas',
+  removed:'Photo removed', resetP:'Photo reset', selectFirst:'Click a photo first', emptySlot:'Empty slot — click to add a photo',
+  titleDoc:'CollageMill — Free Online Photo Collage Maker & Grid Layouts',
+  descDoc:'Arrange 1–25 photos into beautiful collages right in your browser. Grid, Polaroid, film, magazine, curved wall, tilt plane and 3D cube styles with elegant frames. 100% local — no upload.'
+},
+zh:{
+  eyebrow:'免费在线图片拼图排版工具', h1:'把 1–25 张照片 拼成一版|grad|排版',
+  sub:'照片墙、拍立得、胶片、杂志页一键套用，再倾斜、弯曲或折成立方体。精美边框，全程本地处理，从不上传。',
+  b1:'🔒 纯本地 · 不上传', b2:'🖼️ 最多 25 张', b3:'🎨 12 种样式 · 4 种变形', b4:'⬇️ PNG / JPG 导出',
+  addPhotos:'添加图片', fillDemo:'补演示图', shuffle:'打乱', clear:'清空',
+  gCount:'张数', gStyle:'样式预设', gTransform:'变形', gCanvas:'画布', gFrame:'边框', gRefine:'微调',
+  mFlat:'平面', mTilt:'倾斜', mBend:'弯曲', mCube:'立方体',  lIntensity:'纵深', lBg:'背景', lFrameW:'宽度', lFrameColor:'颜色',
+  lGap:'间距', lRadius:'圆角', lShape:'形状', lShadow:'阴影', lTitle:'标题',
+  sSharp:'直角', sRound:'圆角', sCircle:'圆形', phTitle:'可选标题…',
+  selTitle:'选中的图片', lZoom:'缩放', rot90:'旋转 90°', pReset:'重置', pRemove:'移除',
+  expPNG:'导出 PNG', expJPG:'导出 JPG', expHint:'拖拽图片可换位 · 点选图片可微调',
+  st1:'添加照片', st1d:'点击、拖放或粘贴图片，也可一键填入演示图快速开玩。',
+  st2:'选样式与变形', st2d:'12 套预设覆盖 1–25 张，再倾斜、弯曲或折成立方体，边框、间距、背景随心微调。',
+  st3:'导出分享', st3d:'PNG（支持透明）或 JPG，最高 3 倍分辨率导出，所有处理都在本机完成。',
+  fq1:'CollageMill 免费吗？', fq1d:'免费。所有样式、变形与导出功能全部免费，无需注册、没有水印，全部在你的浏览器里运行。',
+  fq2:'照片会被上传到服务器吗？', fq2d:'不会。图片全部通过 Canvas 在本地处理，从不离开你的设备；页面加载完成后断网也能用。',
+  fq3:'最多能排多少张？', fq3d:'1 到 25 张。针对 1、2、4、6、8、9、12、14、16、20、24、25 张有一键优化排版，空位也可以用演示图补满。',
+  fq4:'支持什么格式和尺寸？', fq4d:'PNG（支持透明背景）和 JPG，1×、2×、3× 三档分辨率，长边最高约 4800 像素。',
+  fq5:'倾斜、弯曲、立方体是什么效果？', fq5d:'三种 3D 排版：倾斜让整面照片墙呈透视平面；弯曲把照片墙卷在隐形圆柱上，像弧形展厅；立方体把照片折到 3D 盒体的各个面上。',
+  footMade:'魁歌 KuiGe 出品 · 魁歌免费工具矩阵成员',
+  cnLine:'本站代号：蜃楼 — 海市蜃楼，光聚成楼；散影千张，纳为一壁。',
+  slots:'已放 {f} / {n} 格', added:'已添加 {n} 张', tooMany:'图片多于格子，仅使用前 {n} 张',
+  cleared:'已清空', shuffled:'已打乱', demoFilled:'已补满演示图', needPhoto:'还没有图片——先添加或补演示图',
+  exporting:'正在渲染…', exported:'已导出 {name}（{size}）', exportedJ:'已导出 {name}（{size}）· JPG 会以白底填充透明区域',
+  removed:'已移除图片', resetP:'已重置该图', selectFirst:'请先点选一张图片', emptySlot:'空位——点击可添加图片',
+  titleDoc:'CollageMill — 免费在线图片拼图排版工具',
+  descDoc:'在浏览器里把 1–25 张照片拼成精美排版：照片墙、拍立得、胶片、杂志、曲面墙、透视与 3D 立方体样式，精美边框，纯本地处理不上传。'
+}};
+let LANG='en';
+const t=k=>(DICT[LANG][k]??DICT.en[k]??k);
+function fmt(k,vars){let s=t(k);for(const[g,v]of Object.entries(vars||{}))s=s.replaceAll('{'+g+'}',v);return s}
+function tr(s){return s.replace('|grad|',LANG==='zh'?'漂亮':'beautiful')}
+function applyLang(lang){
+  LANG=lang; document.documentElement.lang=lang;
+  $$('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;const v=DICT[lang][k];if(v==null)return;
+    if(k==='h1'){el.innerHTML=tr(v).replace('beautiful','<span class="grad">beautiful</span>').replace('漂亮','<span class="grad">漂亮</span>');}
+    else el.textContent=v;});
+  $$('[data-i18n-ph]').forEach(el=>{const v=DICT[lang][el.dataset.i18nPh];if(v!=null)el.placeholder=v;});
+  document.title=DICT[lang].titleDoc;
+  const md=document.querySelector('meta[name=description]'); if(md)md.content=DICT[lang].descDoc;
+  $('#btnLang').textContent=lang==='en'?'中文':'English';
+  $('#codenameLine').textContent=DICT[lang].cnLine;
+  try{
+    const u=new URL(location.href);
+    if(lang==='zh')u.searchParams.set('lang','zh'); else u.searchParams.delete('lang');
+    history.replaceState(null,'',u);
+  }catch(e){}
+  localStorage.setItem('collagemill-lang',lang);
+  updSlotLine();
+}
+
+/* ---------------- theme ---------------- */
+const mql=matchMedia('(prefers-color-scheme: dark)');
+let themePref=localStorage.getItem('collagemill-theme')||'auto';
+function applyTheme(){
+  const dark=themePref==='dark'||(themePref==='auto'&&mql.matches);
+  document.documentElement.dataset.theme=dark?'dark':'light';
+  $('#btnTheme').textContent=themePref==='auto'?'🌗':dark?'🌙':'☀️';
+  scheduleRender();
+}
+mql.addEventListener?.('change',()=>{if(themePref==='auto')applyTheme()});
+$('#btnTheme').onclick=()=>{themePref=themePref==='auto'?'light':themePref==='light'?'dark':'auto';localStorage.setItem('collagemill-theme',themePref);applyTheme();};
+
+/* ---------------- toast ---------------- */
+let toastT;
+function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2400);}
+
+/* ---------------- demo photos (procedural) ---------------- */
+function mulberry(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let z=Math.imul(a^a>>>15,1|a);z=z+Math.imul(z^z>>>7,61|z)^z;return((z^z>>>14)>>>0)/4294967296}}
+const PAL=[
+  ['#0e1a2f','#274b63','#e8a33d','#f2d5a0','#122c3a'], ['#1b1033','#452768','#8b5cf6','#e8c468','#2a1444'],
+  ['#0b2530','#14555c','#3ec6b8','#d9f2ea','#0e3a40'], ['#3a1c1c','#7c3a2d','#e07a4f','#f2c094','#4a2420'],
+  ['#101828','#243b6b','#5b8def','#c9dcff','#182848'], ['#2b2115','#6b4f2a','#c9a86a','#efe0bd','#3a2c1a'],
+  ['#101c14','#2d5233','#6fae7c','#dcedd8','#1c3421'], ['#260f1e','#5c2440','#c94f7c','#f2b8cd','#38152a'],
+  ['#0c0f14','#2a3140','#8b9db3','#e2e8f0','#161b24'], ['#301c0a','#7a4a16','#e8963d','#f7d9a8','#46290f']
+];
+const demoCache=[];
+function makeDemo(i){
+  const S=560, cv=document.createElement('canvas'); cv.width=S; cv.height=S;
+  const x=cv.getContext('2d'), R=mulberry(1000+i*77), P=PAL[i%PAL.length];
+  const kind=i%5;
+  if(kind===0){ // dusk mountains
+    const g=x.createLinearGradient(0,0,0,S); g.addColorStop(0,P[0]); g.addColorStop(.62,P[1]); g.addColorStop(1,P[4]);
+    x.fillStyle=g; x.fillRect(0,0,S,S);
+    x.fillStyle=P[2]; x.beginPath(); x.arc(S*(.25+R()*.5),S*(.18+R()*.14),S*.07+R()*S*.05,0,TAU); x.fill();
+    for(let l=0;l<3;l++){const yb=S*(.55+l*.14); x.fillStyle=l===2?P[4]:l===1?P[1]:P[0];
+      x.globalAlpha=.9; x.beginPath(); x.moveTo(0,S); x.lineTo(0,yb);
+      let px=0; while(px<S){const nx=px+S*(.12+R()*.2); x.quadraticCurveTo((px+nx)/2,yb-S*(.05+R()*.12),nx,yb+ (R()-.5)*S*.03); px=nx;}
+      x.lineTo(S,S); x.closePath(); x.fill();}
+    x.globalAlpha=1;
+  }else if(kind===1){ // waves
+    const g=x.createLinearGradient(0,0,0,S); g.addColorStop(0,P[0]); g.addColorStop(1,P[1]); x.fillStyle=g; x.fillRect(0,0,S,S);
+    for(let l=0;l<7;l++){x.fillStyle=l%2?P[2]:P[3]; x.globalAlpha=.16+R()*.2; x.beginPath(); x.moveTo(0,S);
+      const yb=S*(.3+l*.1); x.lineTo(0,yb);
+      for(let px=0;px<=S;px+=S/6) x.quadraticCurveTo(px+S/12, yb-Math.sin(px/S*TAU*(1+l*.3)+R()*6)*S*.03, px+S/6, yb+Math.sin(px/S*TAU*.5)*S*.01);
+      x.lineTo(S,S); x.closePath(); x.fill();}
+    x.globalAlpha=1;
+  }else if(kind===2){ // city
+    const g=x.createLinearGradient(0,0,0,S); g.addColorStop(0,P[0]); g.addColorStop(.7,P[1]); g.addColorStop(1,P[2]); x.fillStyle=g; x.fillRect(0,0,S,S);
+    let px=0; while(px<S){const w=S*(.08+R()*.12), h=S*(.2+R()*.4); x.fillStyle=R()>.5?P[0]:P[4]; x.fillRect(px,S-h,w,h);
+      x.fillStyle=P[3]; for(let wy=S-h+8;wy<S-8;wy+=14)for(let wx=px+5;wx<px+w-6;wx+=11) if(R()>.55) x.fillRect(wx,wy,3.5,5);
+      px+=w+S*.012;}
+    x.fillStyle=P[2]; x.beginPath(); x.arc(S*.72,S*.2,S*.05,0,TAU); x.fill();
+  }else if(kind===3){ // abstract blobs
+    x.fillStyle=P[0]; x.fillRect(0,0,S,S);
+    for(let b=0;b<8;b++){x.fillStyle=[P[1],P[2],P[3],P[4]][b%4]; x.globalAlpha=.35+R()*.4; x.beginPath();
+      x.ellipse(R()*S,R()*S,S*(.08+R()*.2),S*(.08+R()*.2),R()*TAU,0,TAU); x.fill();}
+    x.globalAlpha=1;
+  }else{ // dunes
+    const g=x.createLinearGradient(0,0,0,S); g.addColorStop(0,P[2]); g.addColorStop(1,P[1]); x.fillStyle=g; x.fillRect(0,0,S,S);
+    for(let l=0;l<4;l++){x.fillStyle=l%2?P[4]:P[0]; x.globalAlpha=.75; const yb=S*(.4+l*.16);
+      x.beginPath(); x.moveTo(0,S); x.lineTo(0,yb);
+      x.quadraticCurveTo(S*.35,yb-S*(.1+R()*.08),S*.6,yb+S*.02); x.quadraticCurveTo(S*.85,yb+S*.05,S,yb-S*.03);
+      x.lineTo(S,S); x.closePath(); x.fill();}
+    x.globalAlpha=1; x.fillStyle=P[3]; x.beginPath(); x.arc(S*.3,S*.16,S*.05,0,TAU); x.fill();
+  }
+  // film grain-ish vignette for photo feel
+  const vg=x.createRadialGradient(S/2,S/2,S*.35,S/2,S/2,S*.75); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.22)');
+  x.fillStyle=vg; x.fillRect(0,0,S,S);
+  return cv;
+}
+function demoAt(i){ if(!demoCache[i]) demoCache[i]=makeDemo(i); return demoCache[i]; }
+
+/* ---------------- state ---------------- */
+const COUNTS=[1,2,4,6,8,9,12,14,16,20,24,25];
+const ASPECTS=[['1:1',1],['4:5',0.8],['3:4',0.75],['2:3',2/3],['9:16',9/16],['5:4',1.25],['4:3',4/3],['3:2',1.5],['16:9',16/9]];
+const GRADS=[
+  {id:'dusk', stops:['#0e1a2f','#143b3c','#3c2f6e']},
+  {id:'paper', stops:['#faf5ea','#f5ebd6','#eee0c6']},
+  {id:'sage', stops:['#eef3ee','#dfeae2','#cfe3d8']},
+  {id:'ink', stops:['#101014','#191922','#23232e']},
+  {id:'blush', stops:['#fdeee6','#f8dee7','#f3cfda']}
+];
+const BG_COLORS=['#faf7f0','#f3ead8','#ffffff','#e9eef0','#14141a','#26262e','#0e1a2f','#123c3a'];
+const state={
+  count:12, photos:[], sel:-1,
+  view:{
+    preset:'wall', mode:'flat', intensity:55, aspect:1,
+    gap:.035, radius:.09, shape:'round', shadow:true,
+    frame:'none', frameW:.05, frameColor:'#ffffff',
+    bgKind:'gradient', bgColor:'#f3ead8', gradIdx:0,
+    title:'', titleFont:'serif', cellTilt:false
+  }
+};
+function V(){return state.view}
+
+const PRESETS=[
+ {id:'grid', en:'Minimal Grid', zh:'简约网格', d:{mode:'flat',preset:'grid',gap:.03,radius:.05,shape:'round',frame:'none',shadow:false,bgKind:'color',bgColor:'#faf7f0',cellTilt:false,frameW:.05}},
+ {id:'wall', en:'Photo Wall', zh:'光影照片墙', d:{mode:'flat',preset:'wall',gap:.045,radius:.1,shape:'round',frame:'none',shadow:true,bgKind:'gradient',gradIdx:2,cellTilt:false}},
+ {id:'polaroid', en:'Polaroid', zh:'拍立得', d:{mode:'flat',preset:'polaroid',gap:.06,radius:.02,shape:'sharp',frame:'polaroid',frameW:.055,shadow:true,bgKind:'color',bgColor:'#f3ead8',cellTilt:true}},
+ {id:'film', en:'Filmstrip', zh:'胶片', d:{mode:'flat',preset:'film',gap:.055,radius:.015,shape:'sharp',frame:'film',frameW:.085,shadow:true,bgKind:'color',bgColor:'#1d1d24',cellTilt:false}},
+ {id:'editorial', en:'Editorial', zh:'杂志页', d:{mode:'flat',preset:'editorial',gap:.014,radius:0,shape:'sharp',frame:'solid',frameW:.05,frameColor:'#ffffff',shadow:false,bgKind:'color',bgColor:'#ffffff',cellTilt:false}},
+ {id:'seamless', en:'Seamless', zh:'无缝拼贴', d:{mode:'flat',preset:'seamless',gap:0,radius:0,shape:'sharp',frame:'none',shadow:false,bgKind:'color',bgColor:'#ffffff',cellTilt:false}},
+ {id:'bubbles', en:'Bubbles', zh:'圆形气泡', d:{mode:'flat',preset:'bubbles',gap:.055,radius:0,shape:'circle',frame:'solid',frameW:.045,frameColor:'#ffffff',shadow:true,bgKind:'gradient',gradIdx:4,cellTilt:false}},
+ {id:'curve', en:'Mirage Curve', zh:'蜃景曲面', d:{mode:'bend',intensity:55,preset:'curve',gap:.03,radius:.06,shape:'round',frame:'solid',frameW:.02,frameColor:'#e8e4da',shadow:true,bgKind:'gradient',gradIdx:0,cellTilt:false}},
+ {id:'tilt', en:'Tilt Plane', zh:'斜面透视', d:{mode:'tilt',intensity:55,preset:'tilt',gap:.035,radius:.07,shape:'round',frame:'none',shadow:true,bgKind:'gradient',gradIdx:3,cellTilt:false}},
+ {id:'cube', en:'Cube Hall', zh:'立方展厅', d:{mode:'cube',intensity:55,preset:'cube',gap:.035,radius:.03,shape:'round',frame:'gold',frameW:.03,shadow:false,bgKind:'gradient',gradIdx:0,cellTilt:false}},
+ {id:'gallery', en:'Gold Gallery', zh:'金框画廊', d:{mode:'flat',preset:'gallery',gap:.065,radius:.02,shape:'sharp',frame:'gold',frameW:.06,shadow:true,bgKind:'gradient',gradIdx:3,cellTilt:false}},
+ {id:'torn', en:'Torn Paper', zh:'撕纸拼贴', d:{mode:'flat',preset:'torn',gap:.06,radius:.01,shape:'sharp',frame:'torn',frameW:.06,shadow:true,bgKind:'color',bgColor:'#f6f1e4',cellTilt:false}}
+];
+
+/* ---------------- layout ---------------- */
+function computeLayout(n,W,H,gapPx,cellAsp){
+  if(n<=0)return[];
+  if(n===1)return[{x:0,y:0,w:W,h:H}];
+  const s=Math.sqrt(n*(W/H)/cellAsp);
+  let best=null;
+  for(let cols=Math.max(1,Math.floor(s)-1);cols<=Math.min(n,Math.ceil(s)+1);cols++){
+    const rows=Math.ceil(n/cols), last=n-(rows-1)*cols, empty=cols-last;
+    const cw=(W-gapPx*(cols-1))/cols, ch=(H-gapPx*(rows-1))/rows;
+    if(cw<=0||ch<=0)continue;
+    const score=empty*100+Math.abs(cw/ch-cellAsp)*8+rows*.01;
+    if(!best||score<best.score)best={cols,rows,score};
+  }
+  if(!best)best={cols:1,rows:n};
+  const {cols,rows}=best, cw=(W-gapPx*(cols-1))/cols, ch=(H-gapPx*(rows-1))/rows, cells=[];
+  for(let i=0;i<n;i++){
+    const r=Math.floor(i/cols), c0=i%cols;
+    const lastRow=r===rows-1, last=n-(rows-1)*cols;
+    const off=lastRow&&last<cols?(cols-last)/2*(cw+gapPx):0;
+    cells.push({x:c0*(cw+gapPx)+off,y:r*(ch+gapPx),w:cw,h:ch});
+  }
+  return cells;
+}
+
+/* ---------------- 3D projection ---------------- */
+function rotProject(p,yaw,pitch,pz){
+  const cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+  const x1=p.x*cy+p.z*sy, z1=-p.x*sy+p.z*cy;
+  const y2=p.y*cp-z1*sp, z2=p.y*sp+z1*cp;
+  const k=1/(1-z2*pz);
+  return{x:x1*k,y:y2*k,z:z2};
+}
+/* map flat cell corners (canvas px, normalized around content center) for tilt/bend */
+function mapCorner(x,y,cx,cy,nr,mode,it){
+  const nx=(x-cx)/nr, ny=(y-cy)/nr;
+  if(mode==='tilt'){
+    const yaw=lerp(.10,.52,it), pitch=lerp(.06,.34,it), pz=lerp(.15,.42,it);
+    const r=rotProject({x:nx,y:ny,z:0},yaw,pitch,pz);
+    return{x:cx+r.x*nr,y:cy+r.y*nr,z:r.z};
+  }
+  // bend: wrap the wall around a cylinder whose center bulges toward the viewer
+  const maxT=lerp(.14,1.05,it), th=nx*maxT;
+  const bx=Math.sin(th)/maxT;
+  const bz=-(1-Math.cos(th))*lerp(.4,2.0,it);
+  const r=rotProject({x:bx,y:ny,z:bz},0,lerp(.03,.12,it),lerp(.28,.6,it));
+  return{x:cx+r.x*nr,y:cy+r.y*nr,z:r.z};
+}
+function fitAll(quads,rect,pad){
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(const q of quads)for(const p of q){x0=Math.min(x0,p.x);y0=Math.min(y0,p.y);x1=Math.max(x1,p.x);y1=Math.max(y1,p.y);}
+  const sc=Math.min((rect.w-pad*2)/(x1-x0||1),(rect.h-pad*2)/(y1-y0||1));
+  const ox=rect.x+rect.w/2-(x0+x1)/2*sc, oy=rect.y+rect.h/2-(y0+y1)/2*sc;
+  for(const q of quads)for(const p of q){p.x=p.x*sc+ox;p.y=p.y*sc+oy;}
+  return sc;
+}
+
+/* cube faces: distribute photos over front/right/top planes of a box */
+function cubeCells(n,rect,gapPx){
+  const it=V().intensity/100;
+  let topN=n>=9?Math.max(1,Math.round(n*.12)):0;
+  let sideN=n>=4?Math.max(1,Math.round(n*.2)):0;
+  if(topN+sideN>n-1){topN=0;sideN=Math.min(sideN,Math.max(0,n-1));}
+  const frontN=n-topN-sideN;
+  const BW=1,BH=.76,BD=.66;
+  const faces=[
+    {cnt:frontN,w:BW,h:BH, map:(u,v)=>({x:-BW/2+u*BW,y:-BH/2+v*BH,z:BD/2}),shade:0},
+    {cnt:sideN,w:BD,h:BH, map:(u,v)=>({x:BW/2,y:-BH/2+v*BH,z:BD/2-u*BD}),shade:.16},
+    {cnt:topN,w:BW,h:BD, map:(u,v)=>({x:-BW/2+u*BW,y:-BH/2,z:BD/2-v*BD}),shade:0}
+  ];
+  const yaw=lerp(.3,.56,it), pitch=lerp(.2,.34,it), pz=.34;
+  const out=[];
+  const lg=gapPx/rect.w*1000; // gap in face-local units (faces are laid out in a 1000-unit space)
+  faces.forEach((f,fi)=>{
+    if(f.cnt<=0)return;
+    const asp=f.w/f.h;
+    const local=computeLayout(f.cnt,f.w*1000,f.h*1000,lg,asp);
+    for(const c of local){
+      const q=[
+        f.map(c.x/(f.w*1000),c.y/(f.h*1000)),
+        f.map((c.x+c.w)/(f.w*1000),c.y/(f.h*1000)),
+        f.map((c.x+c.w)/(f.w*1000),(c.y+c.h)/(f.h*1000)),
+        f.map(c.x/(f.w*1000),(c.y+c.h)/(f.h*1000))
+      ].map(p=>rotProject(p,yaw,pitch,pz));
+      out.push({q,shade:f.shade,face:fi});
+    }
+  });
+  fitAll(out.map(o=>o.q),rect,rect.w*.04);
+  return out;
+}
+
+/* ---------------- homography (unit square -> quad) ---------------- */
+function homography(q){ // q: [p00,p10,p11,p01]
+  const src=[[0,0],[1,0],[1,1],[0,1]], dst=q.map(p=>[p.x,p.y]);
+  const A=[],b=[];
+  for(let i=0;i<4;i++){
+    const[u,v]=src[i],[x,y]=dst[i];
+    A.push([u,v,1,0,0,0,-x*u,-x*v]); b.push(x);
+    A.push([0,0,0,u,v,1,-y*u,-y*v]); b.push(y);
+  }
+  // gaussian elimination 8x8
+  for(let c=0;c<8;c++){
+    let piv=c;
+    for(let r=c+1;r<8;r++)if(Math.abs(A[r][c])>Math.abs(A[piv][c]))piv=r;
+    [A[c],A[piv]]=[A[piv],A[c]];[b[c],b[piv]]=[b[piv],b[c]];
+    const d=A[c][c]||1e-12;
+    for(let r=0;r<8;r++){if(r===c)continue;const f=A[r][c]/d;if(!f)continue;
+      for(let k=c;k<8;k++)A[r][k]-=f*A[c][k]; b[r]-=f*b[c];}
+  }
+  return b.map((v,i)=>v/(A[i][i]||1e-12));
+}
+function hp(m,x,y){
+  const w=m[6]*x+m[7]*y+1;
+  return{x:(m[0]*x+m[1]*y+m[2])/w,y:(m[3]*x+m[4]*y+m[5])/w};
+}
+
+/* unit-space outlines: rounded rect via 4 corners, insets t/r/b/l */
+function rrectPts(ins,rr){
+  const t=ins.t,r=ins.r,b=ins.b,l=ins.l;
+  const x0=l,y0=t,x1=1-r,y1=1-b;
+  const rx=Math.min(rr, (x1-x0)/2), ry=Math.min(rr,(y1-y0)/2);
+  const N=9,pts=[];
+  const arc=(cx,cy,a0)=>{for(let i=0;i<=N;i++){const a=a0+i/N*Math.PI/2;pts.push([cx+Math.cos(a)*rx,cy+Math.sin(a)*ry]);}};
+  arc(x1-rx,y0+ry,-Math.PI/2);
+  arc(x1-rx,y1-ry,0);
+  arc(x0+rx,y1-ry,Math.PI/2);
+  arc(x0+rx,y0+ry,Math.PI);
+  return pts;
+}
+function toPath(pts,m){
+  const p=new Path2D();
+  pts.forEach((pt,i)=>{const w=hp(m,pt[0],pt[1]); i?p.lineTo(w.x,w.y):p.moveTo(w.x,w.y);});
+  p.closePath(); return p;
+}
+function polyCenter(pts,m){let x=0,y=0;for(const p of pts){const w=hp(m,p[0],p[1]);x+=w.x;y+=w.y;}return{x:x/pts.length,y:y/pts.length}}
+
+/* ---------------- cell geometry builder ---------------- */
+function buildCells(W,H,rect,gapPx){
+  const v=V(), n=state.count;
+  const cellAspTarget={polaroid:.8,film:1.45,editorial:.78}[v.preset]||1;
+  const flat=computeLayout(n,rect.w,rect.h,gapPx,cellAspTarget);
+  let cells=[];
+  if(v.mode==='cube'){
+    const cc=cubeCells(n,rect,gapPx);
+    // cube cells need aspect for cover crop: recompute from quad dims
+    cells=cc.map((c,i)=>({q:c.q,z:c.q.reduce((s,p)=>s+p.z,0)/4,shade:c.shade,idx:i,flat:null}));
+  }else{
+    cells=flat.map((c,i)=>{
+      let q=[{x:c.x,y:c.y},{x:c.x+c.w,y:c.y},{x:c.x+c.w,y:c.y+c.h},{x:c.x,y:c.y+c.h}];
+      if(v.mode!=='flat'){
+        const cx=rect.x+rect.w/2, cy=rect.y+rect.h/2, nr=Math.max(rect.w,rect.h)/2;
+        q=q.map(p=>mapCorner(p.x,p.y,cx,cy,nr,v.mode,v.intensity/100));
+      }else if(v.cellTilt){
+        const a=(mulberry(i*7919+31)()-.5)*.14;
+        const cos=Math.cos(a),sin=Math.sin(a),cx=c.x+c.w/2,cy=c.y+c.h/2;
+        q=q.map(p=>{const dx=p.x-cx,dy=p.y-cy;return{x:cx+dx*cos-dy*sin,y:cy+dx*sin+dy*cos,z:0}});
+      }
+      return{q,z:q.reduce((s,p)=>s+(p.z||0),0)/4,shade:0,idx:i,flat:c};
+    });
+    if(v.mode!=='flat')fitAll(cells.map(c=>c.q),rect,rect.w*.03);
+  }
+  // assign photos/placeholders
+  cells.forEach((c,i)=>{c.photo=state.photos[i]||null; c.slot=i;});
+  return cells;
+}
+
+/* ---------------- renderer ---------------- */
+const cv=$('#cv'), ctx=cv.getContext('2d');
+let renderQueued=false;
+function scheduleRender(){ if(renderQueued)return; renderQueued=true; setTimeout(()=>{renderQueued=false;render();},16); }
+
+function themeCanvasColors(){
+  const dark=document.documentElement.dataset.theme==='dark';
+  return{
+    phFill:dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.05)',
+    phStroke:dark?'rgba(255,255,255,.35)':'rgba(0,0,0,.28)',
+    titleDark:dark
+  };
+}
+function bgPaint(c,W,H){
+  const v=V();
+  if(v.bgKind==='transparent')return false;
+  if(v.bgKind==='color'){c.fillStyle=v.bgColor;c.fillRect(0,0,W,H);return true;}
+  if(v.bgKind==='gradient'){
+    const gd=GRADS[v.gradIdx%GRADS.length];
+    const gr=c.createLinearGradient(0,0,W*.25,H); gr.addColorStop(0,gd.stops[0]); gr.addColorStop(.55,gd.stops[1]); gr.addColorStop(1,gd.stops[2]);
+    c.fillStyle=gr; c.fillRect(0,0,W,H); return true;
+  }
+  // blur mosaic
+  const list=state.photos.filter(Boolean);
+  if(!list.length){c.fillStyle=document.documentElement.dataset.theme==='dark'?'#101018':'#dde4e2';c.fillRect(0,0,W,H);return true;}
+  const ts=4, tw=Math.max(2,Math.round(W/ts/6)), th=Math.max(2,Math.round(H/ts/6));
+  const off=document.createElement('canvas'); off.width=tw*ts; off.height=th*ts;
+  const ox=off.getContext('2d');
+  for(let iy=0;iy<ts;iy++)for(let ix=0;ix<ts;ix++){
+    const p=list[(iy*ts+ix)%list.length];
+    const s=p.canvas||p.img, ar=tw/th, iw=s.width,ih=s.height;
+    let sw,sh; if(iw/ih>ar){sh=ih;sw=ih*ar;}else{sw=iw;sh=iw/ar;}
+    ox.drawImage(s,(iw-sw)/2,(ih-sh)/2,sw,sh,ix*tw,iy*th,tw+1,th+1);
+  }
+  c.save(); c.filter='blur('+Math.max(6,W/90)+'px) saturate(1.15)';
+  c.drawImage(off,-W*.04,-H*.04,W*1.08,H*1.08); c.restore();
+  c.fillStyle='rgba(0,0,0,.16)'; c.fillRect(0,0,W,H);
+  return true;
+}
+
+function coverCropSrc(photo,ar){
+  const s=photo.canvas||photo.img, iw=s.width, ih=s.height;
+  let sw,sh; if(iw/ih>ar){sh=ih;sw=ih*ar;}else{sw=iw;sh=iw/ar;}
+  sw/=(photo.zoom||1); sh/=(photo.zoom||1);
+  return{s,sx:(iw-sw)/2,sy:(ih-sh)/2,sw,sh};
+}
+
+function drawCell(c,cell,env,W,H,o){
+  const v=V(), q=cell.q, m=homography(q);
+  const flat=cell.flat||{w:q[1].x-q[0].x||1,h:q[3].y-q[0].y||1};
+  // frame width scales with the CELL (consistent look across counts)
+  const fwPx=(v.frame==='none'?0:v.frameW)*1.6*Math.min(flat.w,flat.h);
+  const ar=Math.max(.2,flat.w/flat.h);
+  const rr=unitRadiusFor(flat);
+  // outer outline pts (unit)
+  const outer=rrectPts({t:0,r:0,b:0,l:0},rr);
+  let inner=outer, innerIns={t:0,r:0,b:0,l:0};
+  if(fwPx>0&&v.frame!=='torn'){
+    const ix=fwPx/(flat.w||1), iy=fwPx/(flat.h||1);
+    if(v.frame==='polaroid') innerIns={t:iy,r:ix,b:iy*3.1,l:ix};
+    else innerIns={t:iy,r:ix,b:iy,l:ix};
+    inner=rrectPts(innerIns,Math.max(0,rr-Math.max(ix,iy)));
+  }
+  const outerPath=toPath(outer,m), innerPath=toPath(inner,m);
+  cell.outerPath=outerPath; cell.innerPath=innerPath; cell.m=m; cell.inner=inner;
+
+  // shadow (torn draws its own on the jittered paper path)
+  if(v.shadow&&v.frame!=='torn'&&!o.flatShadows){
+    c.save(); c.shadowColor=env.titleDark?'rgba(0,0,0,.5)':'rgba(20,40,45,.28)';
+    c.shadowBlur=Math.min(W,H)*.03; c.shadowOffsetY=Math.min(W,H)*.012;
+    c.fillStyle='#000'; c.fill(outerPath); c.restore();
+  }
+  // frame ring
+  if(v.frame==='torn'){
+    drawTorn(c,cell,m,flat,env,W,H,o);
+    return;
+  }
+  if(fwPx>0){
+    c.save();
+    const ring=new Path2D(); ring.addPath(outerPath); ring.addPath(innerPath);
+    if(v.frame==='solid'){ c.fillStyle=v.frameColor; c.fill(ring,'evenodd'); }
+    else if(v.frame==='polaroid'){ c.fillStyle='#f7f3ea'; c.fill(ring,'evenodd'); }
+    else if(v.frame==='film'){
+      c.fillStyle='#101012'; c.fill(ring,'evenodd');
+      drawSprockets(c,m,flat,innerIns,env);
+    }else if(v.frame==='gold'){
+      const bb=quadBBox(q), gr=c.createLinearGradient(0,bb.y0,0,bb.y1);
+      gr.addColorStop(0,'#f4dd9a'); gr.addColorStop(.45,'#c99b3f'); gr.addColorStop(.7,'#8a5f1d'); gr.addColorStop(1,'#dcb85e');
+      c.fillStyle=gr; c.fill(ring,'evenodd');
+      c.lineWidth=Math.max(.8,W/1400); c.strokeStyle='rgba(255,240,200,.75)'; c.stroke(outerPath);
+      c.strokeStyle='rgba(60,38,5,.6)'; c.stroke(innerPath);
+    }
+    c.restore();
+  }
+  // texture / placeholder
+  c.save(); c.clip(innerPath);
+  if(cell.photo){
+    const{s,sx,sy,sw,sh}=coverCropSrc(cell.photo,ar);
+    drawMapped(c,s,m,{t:innerIns.t,r:innerIns.r,b:innerIns.b,l:innerIns.l},sx,sy,sw,sh,o.strips,o);
+  }else{
+    const bb=quadBBox(q);
+    c.fillStyle=env.phFill; c.fillRect(bb.x0,bb.y0,bb.x1-bb.x0,bb.y1-bb.y0);
+  }
+  // depth shading
+  if(cell.shade>0){const bb=quadBBox(q);c.fillStyle='rgba(0,0,10,'+cell.shade+')';c.fillRect(bb.x0,bb.y0,bb.x1-bb.x0,bb.y1-bb.y0);}
+  c.restore();
+  // placeholder dashes + plus
+  if(!cell.photo){
+    c.save(); c.strokeStyle=env.phStroke; c.lineWidth=Math.max(1,W/900);
+    c.setLineDash([W/110,W/130]); c.stroke(innerPath); c.setLineDash([]);
+    const ctr=polyCenter(inner,m), fs=Math.min(W,H)*.05;
+    c.fillStyle=env.phStroke; c.font='300 '+fs+'px system-ui,sans-serif';
+    c.textAlign='center'; c.textBaseline='middle'; c.fillText('+',ctr.x,ctr.y);
+    c.restore();
+  }
+  // selection highlight
+  if(o.select===cell.slot){
+    c.save(); c.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#45d4c8';
+    c.lineWidth=Math.max(2,W/300); c.stroke(outerPath); c.restore();
+  }
+}
+function quadBBox(q){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;for(const p of q){x0=Math.min(x0,p.x);y0=Math.min(y0,p.y);x1=Math.max(x1,p.x);y1=Math.max(y1,p.y);}return{x0,y0,x1,y1}}
+
+/* draw texture via subdivided affine strips mapped by homography.
+   o.T is the ambient CTM (devicePixelRatio scale) captured in renderScene —
+   setTransform must compose with it or retina rendering collapses to 1x. */
+function drawMapped(c,img,m,ins,sx,sy,sw,sh,S,o){
+  const T=o.T||{a:1,b:0,c:0,d:1,e:0,f:0};
+  const put=(mA,mB,mC,mD,mE,mF)=>{
+    c.setTransform(T.a*mA+T.c*mB,T.b*mA+T.d*mB,T.a*mC+T.c*mD,T.b*mC+T.d*mD,T.a*mE+T.c*mF+T.e,T.b*mE+T.d*mF+T.f);
+  };
+  const u0=ins.l,v0=ins.t,u1=1-ins.r,v1=1-ins.b;
+  S=clamp(S|0,4,40);
+  const du=(u1-u0)/S, dv=(v1-v0)/S, e=1.2/S; // overlap epsilon in unit space
+  c.imageSmoothingEnabled=true;
+  for(let j=0;j<S;j++)for(let i=0;i<S;i++){
+    const ua=u0+i*du, va=v0+j*dv, ub=Math.min(u1,ua+du+e), vb=Math.min(v1,va+dv+e);
+    const A=hp(m,ua,va), B=hp(m,ub,va), D=hp(m,ua,vb);
+    put(B.x-A.x,B.y-A.y,D.x-A.x,D.y-A.y,A.x,A.y);
+    const su0=(ua-ins.l)/(1-ins.l-ins.r), su1=(ub-ins.l)/(1-ins.l-ins.r);
+    const sv0=(va-ins.t)/(1-ins.t-ins.b), sv1=(vb-ins.t)/(1-ins.t-ins.b);
+    c.drawImage(img,
+      sx+su0*sw, sy+sv0*sh, Math.max(.5,(su1-su0)*sw), Math.max(.5,(sv1-sv0)*sh),
+      0,0,1.004,1.004);
+  }
+  c.setTransform(T.a,T.b,T.c,T.d,T.e,T.f);
+}
+function drawSprockets(c,m,flat,ins,env){
+  const n=clamp(Math.round((flat.w||1)/34),4,14);
+  const holeW=.62*Math.min(ins.l*2,.055), holeH=holeW*1.5;
+  if(holeW<=0)return;
+  for(let i=0;i<n;i++){
+    const u=(i+.5)/n;
+    for(const vy of[ins.t*.5,1-ins.b*.5]){
+      const q=[hp(m,u-holeW/2,vy-holeH/2),hp(m,u+holeW/2,vy-holeH/2),hp(m,u+holeW/2,vy+holeH/2),hp(m,u-holeW/2,vy+holeH/2)];
+      c.fillStyle=env.holeColor; c.beginPath();
+      q.forEach((p,k)=>k?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y)); c.closePath(); c.fill();
+    }
+  }
+}
+function drawTorn(c,cell,m,flat,env,W,H,o){
+  const seed=cell.slot*7919+13, R=mulberry(seed);
+  const fw=(V().frameW)*1.6*Math.min(flat.w,flat.h);
+  const jx=fw*1.5;
+  const outer=rrectPts({t:0,r:0,b:0,l:0},0);
+  // jittered paper outline in unit space (px jitter -> unit)
+  const jxu=jx/(flat.w||1), jyu=jx/(flat.h||1);
+  const jit=(pts,amt)=>{
+    const P=new Path2D();
+    pts.forEach((pt,i)=>{
+      const nx=(R()-.5)*amt[0], ny=(R()-.5)*amt[1];
+      const w=hp(m,clamp(pt[0]+nx,0,1),clamp(pt[1]+ny,0,1));
+      i?P.lineTo(w.x,w.y):P.moveTo(w.x,w.y);
+    });
+    P.closePath(); return P;
+  };
+  const paper=jit(outer,[jxu,jyu]);
+  c.save();
+  if(V().shadow&&!o.flatShadows){
+    c.shadowColor=env.titleDark?'rgba(0,0,0,.5)':'rgba(20,40,45,.28)';
+    c.shadowBlur=Math.min(W,H)*.03; c.shadowOffsetY=Math.min(W,H)*.012;
+  }
+  c.fillStyle='#f8f4ea'; c.fill(paper);
+  c.restore();
+  // inner torn clip
+  const inPts=rrectPts({t:jyu*.55,r:jxu*.55,b:jyu*.55,l:jxu*.55},0);
+  const innerT=jit(inPts,[jxu*.3,jyu*.3]);
+  c.save(); c.clip(innerT);
+  if(cell.photo){
+    const{s,sx,sy,sw,sh}=coverCropSrc(cell.photo,(flat.w||1)/(flat.h||1));
+    drawMapped(c,s,m,{t:jyu*.55,r:jxu*.55,b:jyu*.55,l:jxu*.55},sx,sy,sw,sh,o.strips,o);
+  }
+  c.restore();
+  if(!cell.photo){
+    c.save(); c.strokeStyle=env.phStroke;c.lineWidth=Math.max(1,W/900);c.setLineDash([W/110,W/130]);c.stroke(innerT);c.restore();
+  }
+  if(o.select===cell.slot){c.save();c.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#45d4c8';c.lineWidth=Math.max(2,W/300);c.stroke(paper);c.restore();}
+  cell.outerPath=paper; cell.innerPath=innerT;
+}
+
+/* radius conversion: applied as fraction of min(canvas W,H) in px -> unit per cell */
+let CW=1000,CH=1000; // current canvas logical size, set in renderScene()
+function unitRadiusFor(flat){
+  const v=V();
+  if(v.shape==='circle')return .5;
+  if(v.shape==='sharp')return 0;
+  const px=v.radius*Math.min(CW,CH);
+  return clamp(Math.min(px/(flat.w||1),px/(flat.h||1)),0,.5);
+}
+
+function renderScene(c,W,H,o){
+  o=Object.assign({strips:12,select:-1,flatShadows:false},o);
+  CW=W;CH=H;
+  o.T=c.getTransform();
+  const env=Object.assign(themeCanvasColors(),{holeColor:V().bgKind==='color'?V().bgColor:V().bgKind==='transparent'?'rgba(0,0,0,.35)':(isBgDark()?'#101014':'#e8e4da')});
+  c.clearRect(0,0,W,H);
+  bgPaint(c,W,H);
+  // layout rect (reserve caption band)
+  const pad=Math.min(W,H)*.045;
+  const fs=clamp(Math.min(W,H)*.052,15,64);
+  const titleH=V().title?fs*1.9:0;
+  const rect={x:pad,y:pad,w:W-pad*2,h:H-pad*2-titleH};
+  const gapPx=V().gap*Math.min(W,H);
+  const cells=buildCells(W,H,rect,gapPx);
+  // draw far -> near
+  const order=[...cells].sort((a,b)=>a.z-b.z);
+  for(const cell of order) drawCell(c,cell,env,W,H,o);
+  // caption
+  if(V().title){
+    c.fillStyle=isBgDark()||V().bgKind==='transparent'&&document.documentElement.dataset.theme==='dark'?'#f2ede2':'#2a2a30';
+    c.font=(V().titleFont==='serif'?'600 '+fs+'px Georgia,"Songti SC",serif':'600 '+fs+'px system-ui,sans-serif');
+    c.textAlign='center'; c.textBaseline='top';
+    c.fillText(V().title, W/2, H-pad*.4-fs*1.15, W-pad*2);
+  }
+  return cells;
+}
+function isBgDark(){
+  const v=V();
+  if(v.bgKind==='gradient')return[0,3].includes(v.gradIdx%GRADS.length);
+  if(v.bgKind==='blur')return true;
+  if(v.bgKind==='transparent')return document.documentElement.dataset.theme==='dark';
+  const h=v.bgColor.replace('#',''); const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
+  return (r*.299+g*.587+b*.114)<140;
+}
+
+/* preview render */
+function render(){
+  const stage=$('#stage'), availW=Math.max(160,Math.min(stage.clientWidth-36, 980));
+  const ar=V().aspect;
+  let w=availW, h=w/ar;
+  const maxH=Math.max(320,Math.min(window.innerHeight*.72, 860));
+  if(h>maxH){h=maxH;w=h*ar;}
+  const dpr=Math.min(devicePixelRatio||1,2);
+  cv.style.width=w+'px'; cv.style.height=h+'px';
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  window.__cells=renderScene(ctx,Math.round(w),Math.round(h),{strips:w>700?12:9,select:state.sel});
+}
+
+/* ---------------- photos (slots: array of length count, null = empty) ---------------- */
+function addPhotos(files){
+  const list=[...files].filter(f=>f.type.startsWith('image/'));
+  if(!list.length)return;
+  let loaded=0, skipped=false;
+  list.forEach(f=>{
+    const img=new Image();
+    img.onload=()=>{
+      if(state.photos.filter(Boolean).length>=state.count){skipped=true;}
+      else{
+        const max=2400; let w=img.naturalWidth,h=img.naturalHeight;
+        const sc=Math.min(1,max/Math.max(w,h)); w=Math.round(w*sc);h=Math.round(h*sc);
+        const c=document.createElement('canvas');c.width=w;c.height=h;
+        c.getContext('2d').drawImage(img,0,0,w,h);
+        let at=state.photos.findIndex(p=>!p); if(at<0)at=state.photos.length;
+        state.photos[at]={canvas:c,name:f.name,zoom:1,rot:0};
+      }
+      if(++loaded===list.length){
+        if(skipped)toast(fmt('tooMany',{n:state.count}));
+        else toast(fmt('added',{n:list.length}));
+        refreshPreviews(); updSlotLine(); scheduleRender();
+      }
+    };
+    img.onerror=()=>{if(++loaded===list.length){refreshPreviews();updSlotLine();scheduleRender();}};
+    img.src=URL.createObjectURL(f);
+  });
+}
+function fillDemo(){
+  let n=0;
+  for(let i=0;i<state.count;i++) if(!state.photos[i]){state.photos[i]={canvas:demoAt(i),name:'demo-'+i,zoom:1,rot:0};n++;}
+  if(!n&&state.photos.filter(Boolean).length>=state.count) toast(t('demoFilled'));
+  else toast(t('demoFilled'));
+  refreshPreviews(); updSlotLine(); scheduleRender();
+}
+function updSlotLine(){ $('#slotLine').textContent=fmt('slots',{f:state.photos.filter(Boolean).length,n:state.count}); }
+
+/* ---------------- interactions ---------------- */
+let drag=null;
+function canvasPos(e){
+  const r=cv.getBoundingClientRect();
+  // device-pixel coords: isPointInPath transforms the path by the CTM (dpr scale)
+  return{x:(e.clientX-r.left)*(cv.width/r.width),y:(e.clientY-r.top)*(cv.height/r.height)};
+}
+function cellAt(x,y){
+  const cells=window.__cells||[];
+  for(let i=cells.length-1;i>=0;i--){const c=cells[i];if(c.outerPath&&ctx.isPointInPath(c.outerPath,x,y))return c;}
+  return null;
+}
+cv.addEventListener('pointerdown',e=>{
+  const p=canvasPos(e), c=cellAt(p.x,p.y);
+  drag={x:p.x,y:p.y,cell:c,moved:false};
+  try{cv.setPointerCapture(e.pointerId)}catch(err){}
+});
+cv.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  const p=canvasPos(e);
+  if(Math.hypot(p.x-drag.x,p.y-drag.y)>8)drag.moved=true;
+  cv.style.cursor=drag.cell?(drag.moved?'grabbing':'grab'):'default';
+});
+cv.addEventListener('pointerup',e=>{
+  if(!drag)return;
+  const p=canvasPos(e), from=drag.cell, moved=drag.moved; drag=null;
+  const to=cellAt(p.x,p.y);
+  if(moved&&from&&to&&from!==to){
+    const a=from.slot,b=to.slot;
+    [state.photos[a],state.photos[b]]=[state.photos[b],state.photos[a]];
+    state.sel=-1;$('#selGrp').hidden=true; updSlotLine(); scheduleRender();
+  }else if(!moved){
+    state.sel=from?from.slot:-1;
+    $('#selGrp').hidden=!from;
+    if(from&&from.photo){
+      $('#rZoom').value=Math.round((from.photo.zoom||1)*100);
+      $('#oZoom').textContent=(from.photo.zoom||1).toFixed(1);
+    }
+    scheduleRender();
+  }
+});
+cv.addEventListener('dblclick',e=>{
+  const p=canvasPos(e),c=cellAt(p.x,p.y);
+  if(c&&c.photo){c.photo.zoom=((c.photo.zoom||1)>=2.2)?1:(c.photo.zoom||1)>=1.6?2.2:1.6;
+    $('#rZoom').value=c.photo.zoom*100;$('#oZoom').textContent=c.photo.zoom.toFixed(1);scheduleRender();}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){state.sel=-1;$('#selGrp').hidden=true;scheduleRender();}});
+$('#btnAdd').onclick=()=>$('#file').click();
+$('#file').onchange=e=>{addPhotos(e.target.files);e.target.value='';};
+$('#btnDemo').onclick=fillDemo;
+$('#btnShuffle').onclick=()=>{
+  const list=state.photos.filter(Boolean);
+  for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}
+  let k=0; for(let i=0;i<state.count;i++) state.photos[i]=list[k++]||null;
+  toast(t('shuffled'));scheduleRender();
+};
+$('#btnClear').onclick=()=>{state.photos=[];state.sel=-1;$('#selGrp').hidden=true;toast(t('cleared'));refreshPreviews();updSlotLine();scheduleRender();};
+window.addEventListener('dragover',e=>e.preventDefault());
+window.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer?.files?.length)addPhotos(e.dataTransfer.files);});
+document.addEventListener('paste',e=>{
+  const files=[...(e.clipboardData?.files||[])].filter(f=>f.type.startsWith('image/'));
+  if(files.length)addPhotos(files);
+});
+window.addEventListener('resize',scheduleRender);
+
+/* selected photo controls */
+$('#rZoom').oninput=e=>{
+  const cell=(window.__cells||[]).find(c=>c.slot===state.sel);
+  if(!cell||!cell.photo)return;
+  cell.photo.zoom=e.target.value/100; $('#oZoom').textContent=(e.target.value/100).toFixed(1); scheduleRender();
+};
+$('#btnRot').onclick=()=>{
+  const cell=(window.__cells||[]).find(c=>c.slot===state.sel);
+  if(!cell||!cell.photo)return toast(t('selectFirst'));
+  const p=cell.photo; p.rot=((p.rot||0)+1)%4;
+  if(!p.canvas0){p.canvas0=p.canvas;}
+  const s=p.canvas0, c2=document.createElement('canvas');
+  const q=p.rot%2; c2.width=q?s.height:s.width; c2.height=q?s.width:s.height;
+  const x=c2.getContext('2d'); x.translate(c2.width/2,c2.height/2); x.rotate(Math.PI/2); x.drawImage(s,-s.width/2,-s.height/2);
+  p.canvas=c2; scheduleRender();
+};
+$('#btnReset').onclick=()=>{
+  const cell=(window.__cells||[]).find(c=>c.slot===state.sel);
+  if(!cell||!cell.photo)return toast(t('selectFirst'));
+  const p=cell.photo; p.zoom=1;p.rot=0; if(p.canvas0){p.canvas=p.canvas0;p.canvas0=null;}
+  $('#rZoom').value=100;$('#oZoom').textContent='1.0'; toast(t('resetP')); scheduleRender();
+};
+$('#btnRemove').onclick=()=>{
+  if(state.sel<0)return;
+  state.photos[state.sel]=null; state.sel=-1;$('#selGrp').hidden=true;
+  toast(t('removed')); updSlotLine(); refreshPreviews(); scheduleRender();
+};
+
+/* ---------------- panel controls ---------------- */
+function segInit(el,attr,get,set){
+  const sync=()=>[...el.querySelectorAll('button')].forEach(b=>b.classList.toggle('on',b.dataset[attr]===get()));
+  el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;set(b.dataset[attr]);sync();scheduleRender();});
+  sync(); return sync;
+}
+const syncMode=segInit($('#modeSeg'),'m',()=>V().mode,m=>{V().mode=m;syncPresetChips();});
+const syncShape=segInit($('#shapeSeg'),'s',()=>V().shape,m=>{V().shape=m;syncPresetChips();});
+
+function chipRow(el,items,get,set){
+  el.innerHTML='';
+  items.forEach(it=>{
+    const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=it.label;
+    b.onclick=()=>{set(it);sync();scheduleRender();};el.appendChild(b);
+  });
+  function sync(){[...el.children].forEach((b,i)=>b.classList.toggle('on',get(items[i])));}
+  sync(); return sync;
+}
+const syncCount=chipRow($('#countChips'),COUNTS.map(n=>({label:n,n})),
+  it=>state.count===it.n,
+  it=>{state.count=it.n;state.photos.length=it.n;if(state.sel>=state.count)state.sel=-1;updSlotLine();});
+const syncAspect=chipRow($('#aspectChips'),ASPECTS.map(([l,v])=>({label:l,v})),
+  it=>Math.abs(V().aspect-it.v)<.01,
+  it=>{V().aspect=it.v});
+const syncFrames=chipRow($('#frameChips'),
+  [['none','None 无'],['solid','Solid 纯色'],['polaroid','Polaroid 拍立得'],['film','Film 胶片'],['gold','Gold 金框'],['torn','Torn 撕纸']]
+  .map(([v,label])=>({v,label})),
+  it=>V().frame===it.v,
+  it=>{V().frame=it.v;syncFrameSliders();});
+function syncFrameSliders(){
+  const has=V().frame!=='none'&&V().frame!=='torn';
+  $('#rFrameW').disabled=!has;$('#cFrame').disabled=V().frame!=='solid';
+  $('#rFrameW').value=Math.round(V().frameW*100);$('#oFrameW').textContent=Math.round(V().frameW*100);
+  $('#cFrame').value=V().frameColor;
+}
+$('#rFrameW').oninput=e=>{V().frameW=e.target.value/100;$('#oFrameW').textContent=e.target.value;};
+$('#cFrame').oninput=e=>{V().frameColor=e.target.value;};
+$('#rGap').value=Math.round(V().gap*100);$('#oGap').textContent=Math.round(V().gap*100);
+$('#rGap').oninput=e=>{V().gap=e.target.value/100;$('#oGap').textContent=e.target.value;};
+$('#rRadius').value=Math.round(V().radius*100);$('#oRadius').textContent=Math.round(V().radius*100);
+$('#rRadius').oninput=e=>{V().radius=e.target.value/100;$('#oRadius').textContent=e.target.value;};
+$('#ckShadow').checked=V().shadow;
+$('#ckShadow').onchange=e=>{V().shadow=e.target.checked;};
+$('#rIntensity').oninput=e=>{V().intensity=+e.target.value;$('#oIntensity').textContent=e.target.value;};
+$('#inTitle').oninput=e=>{V().title=e.target.value;scheduleRender();};
+
+/* background swatches + kinds */
+const syncBgSw=chipRow($('#bgSw'),BG_COLORS.map(c=>({c,label:''})),
+  it=>V().bgKind==='color'&&V().bgColor===it.c,
+  it=>{V().bgKind='color';V().bgColor=it.c;syncBgKinds();});
+$('#bgSw').classList.add('chips');
+[...$('#bgSw').children].forEach((b,i)=>{b.style.background=BG_COLORS[i];b.style.width='24px';b.style.height='24px';b.style.borderRadius='8px';b.textContent='';});
+const syncBgKinds=chipRow($('#bgKinds'),
+  [{k:'color',label:'Solid 纯色'},{k:'gradient',label:'Gradient 渐变'},{k:'blur',label:'Blur mosaic 模糊墙'},{k:'transparent',label:'Transparent 透明'}]
+  .map(o=>({k:o.k,label:o.label})),
+  it=>V().bgKind===it.k,
+  it=>{V().bgKind=it.k;syncBgSw();});
+/* gradient variants chip (appears as extra row) */
+const gradRow=document.createElement('div');gradRow.className='chips';gradRow.style.marginTop='6px';
+function rebuildGradChips(){
+  gradRow.innerHTML='';
+  if(V().bgKind!=='gradient'){gradRow.style.display='none';return;}
+  gradRow.style.display='flex';
+  GRADS.forEach((g,i)=>{
+    const b=document.createElement('button');b.type='button';b.className='chip'+(V().gradIdx===i?' on':'');
+    b.textContent=g.id; b.onclick=()=>{V().gradIdx=i;rebuildGradChips();scheduleRender();};
+    gradRow.appendChild(b);
+  });
+}
+$('#bgKinds').after(gradRow);
+
+/* preset cards with live mini previews */
+function buildPresets(){
+  const grid=$('#presetGrid'); grid.innerHTML='';
+  PRESETS.forEach(p=>{
+    const card=document.createElement('button');card.type='button';card.className='pcard';card.dataset.pid=p.id;
+    const mini=document.createElement('canvas');mini.width=132;mini.height=99;
+    const span=document.createElement('span');span.textContent=LANG==='zh'?p.zh:p.en;
+    card.append(mini,span);
+    card.onclick=()=>{applyPreset(p.id)};
+    grid.appendChild(card);
+  });
+  syncPresetChips(); refreshPreviews();
+}
+function syncPresetChips(){
+  $$('#presetGrid .pcard').forEach(c=>c.classList.toggle('on',c.dataset.pid===V().preset));
+}
+function applyPreset(id){
+  const p=PRESETS.find(p=>p.id===id); if(!p)return;
+  Object.assign(V(),p.d);
+  syncAllControls(); rebuildGradChips(); scheduleRender();
+}
+function refreshPreviews(){
+  // mini scenes: 6 demo photos rendered under each preset
+  const bak={...V()}, bakPhotos=state.photos, bakCount=state.count, bakSel=state.sel;
+  const bakCW=CW, bakCH=CH;
+  state.photos=[0,1,2,3,4,5].map(i=>({canvas:demoAt(i+3),zoom:1,rot:0}));
+  state.count=6; state.sel=-1;
+  $$('#presetGrid .pcard').forEach(card=>{
+    const p=PRESETS.find(x=>x.id===card.dataset.pid); if(!p)return;
+    Object.assign(V(),p.d);
+    const mini=card.querySelector('canvas'), x=mini.getContext('2d');
+    renderScene(x,mini.width,mini.height,{strips:5,select:-1,flatShadows:true});
+  });
+  Object.assign(V(),bak);
+  state.photos=bakPhotos; state.count=bakCount; state.sel=bakSel;
+  CW=bakCW; CH=bakCH;
+}
+
+/* sync everything after preset/mode jump */
+function syncAllControls(){
+  syncMode();syncShape();syncCount();syncAspect();syncFrames();syncFrameSliders();syncBgSw();syncBgKinds();syncPresetChips();
+  $('#rGap').value=Math.round(V().gap*100);$('#oGap').textContent=Math.round(V().gap*100);
+  $('#rRadius').value=Math.round(V().radius*100);$('#oRadius').textContent=Math.round(V().radius*100);
+  $('#ckShadow').checked=V().shadow;
+  $('#rIntensity').value=V().intensity;$('#oIntensity').textContent=V().intensity;
+  $('#inTitle').value=V().title;
+}
+
+/* ---------------- export ---------------- */
+async function exportImage(fmtKind){
+  if(!state.photos.filter(Boolean).length){toast(t('needPhoto'));return;}
+  toast(t('exporting'));
+  await new Promise(r=>setTimeout(r,30));
+  const scale=+$('#selScale').value, ar=V().aspect, L=Math.min(1600*scale,5200);
+  const W=ar>=1?L:Math.round(L*ar), H=ar>=1?Math.round(L/ar):L;
+  const off=document.createElement('canvas'); off.width=W; off.height=H;
+  const c=off.getContext('2d'); c.imageSmoothingQuality='high';
+  if(fmtKind==='jpeg'){c.fillStyle='#ffffff';c.fillRect(0,0,W,H);}
+  renderScene(c,W,H,{strips:clamp(Math.round(Math.max(W,H)/140),10,26)});
+  const mime=fmtKind==='jpeg'?'image/jpeg':'image/png';
+  off.toBlob(blob=>{
+    if(!blob){toast('Export failed');return;}
+    const d=new Date(), pad=n=>String(n).padStart(2,'0');
+    const name=`collagemill-${state.count}p-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.${fmtKind==='jpeg'?'jpg':'png'}`;
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    toast(fmt(fmtKind==='jpeg'?'exportedJ':'exported',{name,size:(blob.size/1024).toFixed(0)+' KB'}));
+    $('#expInfo').textContent=`${W}×${H} · ${(blob.size/1024/1024).toFixed(2)} MB`;
+    setTimeout(()=>{try{window.mxFunnel&&window.mxFunnel()}catch(e){}},900);
+  },mime,fmtKind==='jpeg'?0.92:undefined);
+}
+$('#btnPNG').onclick=()=>exportImage('png');
+$('#btnJPG').onclick=()=>exportImage('jpeg');
+
+/* ---------------- boot ---------------- */
+function initLang(){
+  const q=new URLSearchParams(location.search).get('lang');
+  const saved=localStorage.getItem('collagemill-lang');
+  LANG=(q==='zh'||q==='en')?q:(saved==='zh'||saved==='en')?saved:(navigator.language||'en').startsWith('zh')?'zh':'en';
+  applyLang(LANG);
+}
+$('#btnLang').onclick=()=>applyLang(LANG==='en'?'zh':'en');
+
+initLang();
+applyTheme();
+buildPresets();
+syncAllControls();
+rebuildGradChips();
+fillDemo();
+window.addEventListener('load',scheduleRender);
+setTimeout(scheduleRender,400);
+window.__CM={state,render:()=>render(),renderScene,exportImage,applyPreset,V};
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "948f2535a9dd4775a436c677b3c950e4"}'></script>
+</body>
+</html>
